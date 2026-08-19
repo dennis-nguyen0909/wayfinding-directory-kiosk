@@ -45,16 +45,14 @@ export function DirectoryScreen() {
     <div className="grid h-dvh w-screen overflow-hidden grid-rows-[auto_1fr_auto]">
       <KioskHeader />
 
-      <main className="min-h-0 grid landscape:grid-cols-[5fr_7fr] portrait:grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-4 px-12 pb-6">
-        <section className="min-h-0 flex flex-col gap-4 overflow-hidden">
-          <KioskBreadcrumb
-            segments={[
-              { label: 'Directory', onTap: selectedRoom ? () => selectRoom(null) : undefined },
-              ...(selectedRoom ? [{ label: selectedRoom.name }] : []),
-            ]}
-          />
-
-          {selectedRoom ? (
+      {selectedRoom ? (
+        // Detail state — matches Mappedin's map-alongside-a-task layout. The
+        // map panel only exists in the DOM once there's a task to show it for.
+        <main className="min-h-0 grid landscape:grid-cols-[5fr_7fr] portrait:grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-4 px-12 pb-6">
+          <section className="min-h-0 flex flex-col gap-4 overflow-hidden">
+            <KioskBreadcrumb
+              segments={[{ label: 'Directory', onTap: () => selectRoom(null) }, { label: selectedRoom.name }]}
+            />
             <RoomDetailCard
               room={selectedRoom}
               onBack={() => selectRoom(null)}
@@ -63,29 +61,32 @@ export function DirectoryScreen() {
                 startDirections()
               }}
             />
-          ) : (
-            <>
-              <CategoryChips active={activeCategory} onSelect={setActiveCategory} />
-              <SearchKeyboard value={searchQuery} onChange={setSearchQuery} />
-              <div className="flex-1 min-h-0 overflow-y-auto">
-                <RoomList rooms={results} onSelect={selectRoom} />
-              </div>
-            </>
-          )}
-        </section>
+          </section>
 
-        <section className="relative min-h-0 flex flex-col bg-card rounded-xl border border-border p-6 overflow-hidden">
-          <FloorSwitcher floors={building.floors} activeFloorId={activeMapFloorId} onSelect={setActiveMapFloorId} />
-          <div className="flex-1 min-h-0 pt-28">
-            <FloorGridMap
-              floor={activeFloor}
-              originCorridorId={floorOfCorridor(originCorridorId) === activeFloor.id ? originCorridorId : undefined}
-              selectedRoomId={selectedRoomId}
-              onSelectRoom={selectRoom}
-            />
+          <section className="relative min-h-0 flex flex-col bg-card rounded-xl border border-border p-6 overflow-hidden">
+            <FloorSwitcher floors={building.floors} activeFloorId={activeMapFloorId} onSelect={setActiveMapFloorId} />
+            <div className="flex-1 min-h-0 pt-28">
+              <FloorGridMap
+                floor={activeFloor}
+                originCorridorId={floorOfCorridor(originCorridorId) === activeFloor.id ? originCorridorId : undefined}
+                selectedRoomId={selectedRoomId}
+                onSelectRoom={selectRoom}
+              />
+            </div>
+          </section>
+        </main>
+      ) : (
+        // Browse state — Mappedin's own home/browse screens don't reserve map
+        // real estate either; the map is absent until a task is underway.
+        <main className="min-h-0 flex flex-col gap-4 px-12 pb-6 overflow-hidden">
+          <KioskBreadcrumb segments={[{ label: 'Directory' }]} />
+          <CategoryChips active={activeCategory} onSelect={setActiveCategory} />
+          <SearchKeyboard value={searchQuery} onChange={setSearchQuery} />
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <RoomList rooms={results} onSelect={selectRoom} />
           </div>
-        </section>
-      </main>
+        </main>
+      )}
 
       <KioskFooter showHome={false} onHome={restartSession} onHelp={() => setHelpOpen(true)} />
       <StaffHelpDialog open={helpOpen} onOpenChange={setHelpOpen} />

@@ -43,7 +43,7 @@ export function SearchKeyboard({
           readOnly
           inputMode="none"
           placeholder={placeholder}
-          className="h-20 text-3xl bg-background border border-border rounded-lg pl-16 pr-16 focus-visible:ring-4 focus-visible:ring-primary/40"
+          className="h-20 text-3xl bg-background border border-border rounded-full pl-16 pr-16 focus-visible:ring-4 focus-visible:ring-primary/40"
         />
         {value.length > 0 && (
           <button
