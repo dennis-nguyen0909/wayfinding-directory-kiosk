@@ -5,9 +5,9 @@ import { CorridorCell } from './CorridorCell'
 import { RoomBlock } from './RoomBlock'
 
 const TRANSITION_ICON: Record<Transition['kind'], React.ReactNode> = {
-  elevator: <ArrowUpDown className="h-6 w-6 text-primary" />,
-  stairs: <Footprints className="h-6 w-6 text-muted-foreground" />,
-  ramp: <TrendingUp className="h-6 w-6 text-muted-foreground" />,
+  elevator: <ArrowUpDown className="h-6 w-6 text-primary" strokeWidth={1.9} />,
+  stairs: <Footprints className="h-6 w-6 text-muted-foreground" strokeWidth={1.9} />,
+  ramp: <TrendingUp className="h-6 w-6 text-muted-foreground" strokeWidth={1.9} />,
 }
 
 interface FloorGridMapProps {

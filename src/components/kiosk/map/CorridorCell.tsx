@@ -31,13 +31,16 @@ export function CorridorCell({ gridPosition, label, icon, isHighlighted, isOrigi
     <div
       style={gridStyle(gridPosition)}
       className={cn(
-        'relative flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border bg-muted/50 min-h-[64px]',
-        isHighlighted && 'bg-primary/10 border-primary border-solid ring-2 ring-primary/50'
+        'relative flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border/50 bg-muted/20 min-h-[64px]',
+        isHighlighted && 'bg-primary/10 border-primary/70 border-solid ring-2 ring-primary/50'
       )}
     >
       {isOrigin && (
-        <span className="absolute -top-2 -left-2 h-8 w-8 rounded-full bg-primary flex items-center justify-center animate-pulse">
-          <MapPin className="h-5 w-5 text-primary-foreground" />
+        <span
+          className="absolute -top-2 -left-2 h-8 w-8 rounded-full bg-primary flex items-center justify-center animate-pulse"
+          style={{ boxShadow: '0 0 18px -2px color-mix(in oklab, var(--primary) 60%, transparent)' }}
+        >
+          <MapPin className="h-5 w-5 text-primary-foreground" strokeWidth={1.9} />
         </span>
       )}
       {icon}
@@ -45,7 +48,10 @@ export function CorridorCell({ gridPosition, label, icon, isHighlighted, isOrigi
         <span className="text-xl font-medium text-muted-foreground text-center px-1 leading-tight">{label}</span>
       )}
       {isHighlighted && travelHeading && (
-        <ArrowUp className={cn('h-6 w-6 text-primary transition-transform', HEADING_ROTATION[travelHeading])} />
+        <ArrowUp
+          className={cn('h-6 w-6 text-primary transition-transform', HEADING_ROTATION[travelHeading])}
+          strokeWidth={2}
+        />
       )}
     </div>
   )
