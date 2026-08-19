@@ -1,8 +1,10 @@
 import { Clock as ClockIcon, MapPin } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { building } from '@/config/building'
+import { CATEGORY_STYLES } from '@/lib/category-meta'
 import { getDeviceTimezone } from '@/lib/device-attributes'
 import { allRooms } from '@/lib/selectors'
+import { cn } from '@/lib/utils'
 import { useKiosk } from '../shell/KioskProvider'
 
 const FLOOR_ROTATION_MS = 14_000
@@ -24,6 +26,12 @@ function useClock() {
  * ticker, forever); the first real tap promotes the same screen into the
  * interactive directory. See claude-dev/2026-08-10-66-wayfinding-directory-app/
  * 02-signage-redesign-research.md for why ("Option A").
+ *
+ * Two independently-rotating zones, not one static frame — the Pickcel/AiScreen
+ * idle-mode convention this redesign borrowed research from: a floor-spotlight
+ * zone (rotates every FLOOR_ROTATION_MS) and a ticker zone (its own crawl speed,
+ * divided by the border-t below), the same way a signage CMS treats a directory
+ * screen as one zone in a playlist alongside separately-timed weather/news zones.
  */
 export function AttractScreen() {
   const { begin } = useKiosk()
@@ -123,10 +131,26 @@ export function AttractScreen() {
           <h1 className="font-display text-6xl font-bold uppercase tracking-tight text-foreground leading-[1.02] mb-6 text-balance">
             {floor.label}
           </h1>
-          <div className="flex flex-wrap gap-x-10 gap-y-3 text-2xl text-muted-foreground">
-            {spotlightRooms.map((room) => (
-              <span key={room.id}>{room.name}</span>
-            ))}
+          <div className="flex flex-wrap gap-4">
+            {spotlightRooms.map((room) => {
+              const { Icon, iconClass, tileClass } = CATEGORY_STYLES[room.category]
+              return (
+                <div
+                  key={room.id}
+                  className="flex items-center gap-3 rounded-xl border border-border overflow-hidden pr-5"
+                >
+                  <div
+                    className={cn(
+                      'h-16 w-16 flex items-center justify-center bg-gradient-to-br shrink-0',
+                      tileClass
+                    )}
+                  >
+                    <Icon className={cn('h-8 w-8', iconClass)} />
+                  </div>
+                  <span className="text-2xl text-foreground font-medium">{room.name}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
