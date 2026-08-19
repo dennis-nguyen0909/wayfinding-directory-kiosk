@@ -127,8 +127,15 @@ function IsoRoom({
       style={{ ...gridCellStyle(room.gridPosition), transform: 'translateZ(6px)' }}
       className={cn(
         'relative flex flex-col items-center justify-center gap-2 rounded-lg border p-3 w-full h-full min-h-[64px] min-w-[64px]',
+        // Riser shadow reads as this block's raised height (see the translateZ set via
+        // inline style below). A uniform active:scale press looks wrong on a tilted
+        // 3D block — the shadow shrinking on press ("the block sinks flush with the
+        // corridor plane") is the affordance that actually matches this metaphor. Kept
+        // as a box-shadow transition (not transform) because the inline `style.transform`
+        // above always wins over any Tailwind transform utility at the same element.
         'shadow-[0_6px_0_rgba(0,0,0,0.35),0_8px_10px_rgba(0,0,0,0.25)]',
-        'transition-transform duration-150 active:scale-[0.97]',
+        'active:shadow-[0_1px_0_rgba(0,0,0,0.35),0_2px_4px_rgba(0,0,0,0.25)]',
+        'transition-shadow duration-150',
         blockClass,
         (isHighlighted || isDestination) &&
           'ring-4 ring-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_40%,transparent),0_6px_0_rgba(0,0,0,0.35)]'

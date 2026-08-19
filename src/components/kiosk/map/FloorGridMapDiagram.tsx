@@ -24,6 +24,9 @@ const TRANSITION_ICON: Record<Transition['kind'], React.ReactNode> = {
   ramp: <TrendingUp className="h-5 w-5" />,
 }
 
+/** Grid-unit clearance a room's notch stops short of its connector's node circle. */
+const NODE_APPROACH_GAP = 0.16
+
 interface WayNode {
   id: string
   gridPosition: GridPosition
@@ -134,18 +137,34 @@ export function FloorGridMapDiagram({
           if (!connector) return null
           const roomCenter = gridCellCenter(room.gridPosition)
           const nodeCenter = gridCellCenter(connector.gridPosition)
-          const dx = nodeCenter.x - roomCenter.x
-          const dy = nodeCenter.y - roomCenter.y
-          const len = Math.hypot(dx, dy) || 1
-          const stubFrac = Math.min(0.4, Math.max(0.2, (len - 0.15) / len))
+          // Anchor the stub to the room's declared entranceSide (falling back to the
+          // raw direction toward its connector) rather than drawing a straight line
+          // between the two cell centers. A center-to-center line goes diagonal for
+          // any colSpan room whose center doesn't sit above its connector (e.g. The
+          // Summit Conference Center) — forcing the perpendicular axis keeps every
+          // notch a clean vertical/horizontal tick, like a real signage schematic.
+          const heading = room.entranceSide ?? directionBetweenPositions(room.gridPosition, connector.gridPosition)
+          const isVertical = heading === 'n' || heading === 's'
+          const sign = heading === 'n' || heading === 'w' ? -1 : 1
+          const roomHalfExtent = (isVertical ? (room.gridPosition.rowSpan ?? 1) : (room.gridPosition.colSpan ?? 1)) / 2
+          const trunk = isVertical ? nodeCenter.y : nodeCenter.x
+          // Start right at the room's own edge (not its center) and stop just short
+          // of the through-node circle, so the tick reads as touching the corridor
+          // instead of floating disconnected above it.
+          const start = (isVertical ? roomCenter.y : roomCenter.x) + sign * roomHalfExtent
+          const end = trunk - sign * NODE_APPROACH_GAP
+          const x1 = isVertical ? roomCenter.x : start
+          const y1 = isVertical ? start : roomCenter.y
+          const x2 = isVertical ? roomCenter.x : end
+          const y2 = isVertical ? end : roomCenter.y
           const isRouteNotch = destinationRoomId === room.id && lastHighlighted === connector.id
           return (
             <line
               key={`notch-${room.id}`}
-              x1={roomCenter.x + dx * 0.1}
-              y1={roomCenter.y + dy * 0.1}
-              x2={roomCenter.x + dx * stubFrac}
-              y2={roomCenter.y + dy * stubFrac}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
               strokeLinecap="round"
               className={isRouteNotch ? 'stroke-primary' : 'stroke-border'}
               strokeWidth={isRouteNotch ? 0.05 : 0.025}
@@ -198,12 +217,23 @@ export function FloorGridMapDiagram({
               style={gridCellStyle(room.gridPosition)}
               className={cn(
                 'flex flex-col items-center justify-center gap-1 min-h-[64px] min-w-[64px] rounded-lg',
-                'transition-transform duration-150 active:scale-[0.97]',
-                isActive && 'ring-2 ring-primary/60 ring-offset-2 ring-offset-background'
+                'transition-transform duration-150 active:scale-[0.97]'
               )}
             >
-              <Icon className={cn('h-6 w-6 shrink-0', iconClass)} />
-              <span className="text-lg font-medium text-foreground text-center leading-tight line-clamp-2 break-words px-1">
+              <Icon
+                className={cn(
+                  'h-6 w-6 shrink-0',
+                  isActive
+                    ? 'text-primary drop-shadow-[0_0_10px_color-mix(in_oklab,var(--primary)_55%,transparent)]'
+                    : iconClass
+                )}
+              />
+              <span
+                className={cn(
+                  'text-lg text-center leading-tight line-clamp-2 break-words px-1',
+                  isActive ? 'font-semibold text-primary' : 'font-medium text-foreground'
+                )}
+              >
                 {room.name}
               </span>
             </button>
