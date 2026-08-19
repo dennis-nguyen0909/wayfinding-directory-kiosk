@@ -18,8 +18,7 @@ function gridStyle(pos: GridPosition): React.CSSProperties {
 }
 
 export function RoomBlock({ room, onTap, isHighlighted, isDestination }: RoomBlockProps) {
-  const { Icon, iconBg, iconColor } = CATEGORY_STYLES[room.category]
-  const onRoute = isHighlighted || isDestination
+  const { Icon, blockClass, iconClass } = CATEGORY_STYLES[room.category]
 
   return (
     <button
@@ -27,22 +26,14 @@ export function RoomBlock({ room, onTap, isHighlighted, isDestination }: RoomBlo
       onClick={onTap}
       style={gridStyle(room.gridPosition)}
       className={cn(
-        'relative flex flex-col items-center justify-center gap-3 rounded-2xl border p-4 min-h-[96px]',
-        'bg-card border-border/70 hover:border-border transition-all duration-150 active:scale-[0.97]',
-        onRoute && 'border-primary ring-2 ring-primary/60'
+        'relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-3 min-h-[88px]',
+        'transition-all duration-150 active:scale-[0.97]',
+        blockClass,
+        (isHighlighted || isDestination) && 'ring-4 ring-primary shadow-[0_0_24px_hsl(var(--primary)/0.4)]'
       )}
     >
-      {onRoute && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-2xl"
-          style={{ boxShadow: '0 0 28px -4px color-mix(in oklab, var(--primary) 55%, transparent)' }}
-        />
-      )}
-      <div className={cn('flex items-center justify-center h-14 w-14 rounded-2xl shrink-0', iconBg)}>
-        <Icon className={cn('h-7 w-7', iconColor)} strokeWidth={1.9} />
-      </div>
-      <span className="w-full min-w-0 text-xl font-semibold leading-tight text-center line-clamp-2 break-words text-foreground">
+      <Icon className={cn('h-8 w-8 shrink-0', iconClass)} />
+      <span className="w-full min-w-0 text-xl font-semibold leading-tight text-center line-clamp-2 break-words">
         {room.name}
       </span>
       {isDestination && (

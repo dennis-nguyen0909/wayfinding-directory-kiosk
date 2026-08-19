@@ -3,50 +3,40 @@ import type { RoomCategory } from './types'
 
 interface CategoryStyle {
   Icon: LucideIcon
-  /** Tinted icon-badge background (list rows, detail header, map tiles). */
-  iconBg: string
-  /** Icon stroke color — same hue as iconBg. */
-  iconColor: string
+  /** Room block treatment — semantic tokens only, distinct per category. */
+  blockClass: string
+  iconClass: string
 }
 
-/**
- * Category color-coding — distinct hues via the named `category-*` Tailwind
- * colors (tailwind.config.js), each backed by a plain hex CSS var
- * (src/index.css). Tailwind's own opacity modifier (`/12`, `/45`) handles
- * tinting via color-mix() regardless of the var's format — do NOT hand-roll
- * `hsl(var(--x)/N)` arbitrary values, the vars already hold complete hsl()
- * strings elsewhere in this theme and double-wrapping silently produces
- * invalid (dropped) CSS.
- */
 export const CATEGORY_STYLES: Record<RoomCategory, CategoryStyle> = {
   business: {
     Icon: Briefcase,
-    iconBg: 'bg-category-business/14',
-    iconColor: 'text-category-business',
+    blockClass: 'bg-[hsl(var(--chart-1)/0.12)] border-[hsl(var(--chart-1))] text-foreground',
+    iconClass: 'text-[hsl(var(--chart-1))]',
   },
   dining: {
     Icon: Coffee,
-    iconBg: 'bg-category-dining/14',
-    iconColor: 'text-category-dining',
+    blockClass: 'bg-[hsl(var(--chart-2)/0.12)] border-[hsl(var(--chart-2))] text-foreground',
+    iconClass: 'text-[hsl(var(--chart-2))]',
   },
   meeting: {
     Icon: Users,
-    iconBg: 'bg-category-meeting/14',
-    iconColor: 'text-category-meeting',
+    blockClass: 'bg-[hsl(var(--chart-3)/0.12)] border-[hsl(var(--chart-3))] text-foreground',
+    iconClass: 'text-[hsl(var(--chart-3))]',
   },
   amenity: {
     Icon: Sparkles,
-    iconBg: 'bg-category-amenity/14',
-    iconColor: 'text-category-amenity',
+    blockClass: 'bg-[hsl(var(--chart-4)/0.12)] border-[hsl(var(--chart-4))] text-foreground',
+    iconClass: 'text-[hsl(var(--chart-4))]',
   },
   services: {
     Icon: Info,
-    iconBg: 'bg-category-services/14',
-    iconColor: 'text-category-services',
+    blockClass: 'bg-[hsl(var(--chart-5)/0.12)] border-[hsl(var(--chart-5))] text-foreground',
+    iconClass: 'text-[hsl(var(--chart-5))]',
   },
   restroom: {
     Icon: DoorClosed,
-    iconBg: 'bg-muted',
-    iconColor: 'text-muted-foreground',
+    blockClass: 'bg-muted border-border text-muted-foreground',
+    iconClass: 'text-muted-foreground',
   },
 }

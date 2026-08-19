@@ -74,7 +74,7 @@ export function DirectoryScreen() {
           )}
         </section>
 
-        <section className="min-h-0 flex flex-col gap-4 bg-card rounded-3xl border border-border/60 p-6 overflow-hidden">
+        <section className="min-h-0 flex flex-col gap-4 bg-card rounded-3xl border border-border p-6 overflow-hidden">
           <FloorSwitcher floors={building.floors} activeFloorId={activeMapFloorId} onSelect={setActiveMapFloorId} />
           <div className="flex-1 min-h-0">
             <FloorGridMap
