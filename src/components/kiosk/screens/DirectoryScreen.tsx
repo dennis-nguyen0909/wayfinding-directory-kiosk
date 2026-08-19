@@ -3,6 +3,7 @@ import { building } from '@/config/building'
 import { getRoomById, searchRooms } from '@/lib/selectors'
 import { FloorGridMap } from '../map/FloorGridMap'
 import { FloorSwitcher } from '../map/FloorSwitcher'
+import { MapModeToggle } from '../map/MapModeToggle'
 import { KioskFooter } from '../shell/KioskFooter'
 import { KioskHeader } from '../shell/KioskHeader'
 import { useKiosk } from '../shell/KioskProvider'
@@ -28,11 +29,13 @@ export function DirectoryScreen() {
     searchQuery,
     selectedRoomId,
     originCorridorId,
+    mapDisplayMode,
     setActiveCategory,
     setSearchQuery,
     selectRoom,
     startDirections,
     restartSession,
+    setMapDisplayMode,
   } = useKiosk()
   const [activeMapFloorId, setActiveMapFloorId] = useState(() => floorOfCorridor(originCorridorId))
   const [helpOpen, setHelpOpen] = useState(false)
@@ -75,7 +78,10 @@ export function DirectoryScreen() {
         </section>
 
         <section className="min-h-0 flex flex-col gap-4 bg-card rounded-xl border border-border p-6 overflow-hidden">
-          <FloorSwitcher floors={building.floors} activeFloorId={activeMapFloorId} onSelect={setActiveMapFloorId} />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <FloorSwitcher floors={building.floors} activeFloorId={activeMapFloorId} onSelect={setActiveMapFloorId} />
+            <MapModeToggle mode={mapDisplayMode} onSelect={setMapDisplayMode} />
+          </div>
           <div className="flex-1 min-h-0">
             <FloorGridMap
               floor={activeFloor}

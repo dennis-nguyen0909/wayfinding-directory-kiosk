@@ -5,6 +5,7 @@ import { getRoomById } from '@/lib/selectors'
 import type { RoomCategory } from '@/lib/types'
 
 type Screen = 'attract' | 'directory' | 'directions'
+export type MapDisplayMode = 'diagram' | 'isometric'
 
 interface KioskContextValue {
   screen: Screen
@@ -14,6 +15,7 @@ interface KioskContextValue {
   originCorridorId: string
   hasUserState: boolean
   idleWarningRemaining: number | null
+  mapDisplayMode: MapDisplayMode
   begin: () => void
   setActiveCategory: (category: RoomCategory | null) => void
   setSearchQuery: (query: string) => void
@@ -22,6 +24,7 @@ interface KioskContextValue {
   backToDirectory: () => void
   extendSession: () => void
   restartSession: () => void
+  setMapDisplayMode: (mode: MapDisplayMode) => void
 }
 
 const KioskContext = createContext<KioskContextValue | null>(null)
@@ -55,6 +58,7 @@ export function KioskProvider({ children }: { children: React.ReactNode }) {
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(initialRoomId)
   const [originCorridorId] = useState<string>(resolveOriginCorridorId)
   const [idleWarningRemaining, setIdleWarningRemaining] = useState<number | null>(null)
+  const [mapDisplayMode, setMapDisplayMode] = useState<MapDisplayMode>('diagram')
 
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const warningIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -155,6 +159,7 @@ export function KioskProvider({ children }: { children: React.ReactNode }) {
     originCorridorId,
     hasUserState,
     idleWarningRemaining,
+    mapDisplayMode,
     begin: () => setActiveScreen('directory'),
     setActiveCategory,
     setSearchQuery,
@@ -163,6 +168,7 @@ export function KioskProvider({ children }: { children: React.ReactNode }) {
     backToDirectory: () => setActiveScreen('directory'),
     extendSession,
     restartSession,
+    setMapDisplayMode,
   }
 
   return <KioskContext.Provider value={value}>{children}</KioskContext.Provider>

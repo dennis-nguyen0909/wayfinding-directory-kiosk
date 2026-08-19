@@ -4,6 +4,7 @@ import { building } from '@/config/building'
 import { getRoomById, routeBetween } from '@/lib/selectors'
 import { FloorGridMap } from '../map/FloorGridMap'
 import { FloorSwitcher } from '../map/FloorSwitcher'
+import { MapModeToggle } from '../map/MapModeToggle'
 import { KioskFooter } from '../shell/KioskFooter'
 import { KioskHeader } from '../shell/KioskHeader'
 import { useKiosk } from '../shell/KioskProvider'
@@ -14,7 +15,8 @@ import { StaffHelpDialog } from './StaffHelpDialog'
 import { TurnByTurnPanel } from './TurnByTurnPanel'
 
 export function DirectionsScreen() {
-  const { selectedRoomId, originCorridorId, backToDirectory, restartSession } = useKiosk()
+  const { selectedRoomId, originCorridorId, mapDisplayMode, backToDirectory, restartSession, setMapDisplayMode } =
+    useKiosk()
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(0)
   const [qrOpen, setQrOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
@@ -62,15 +64,18 @@ export function DirectionsScreen() {
         </section>
 
         <section className="min-h-0 flex flex-col gap-4 bg-card rounded-xl border border-border p-6 overflow-hidden">
-          <FloorSwitcher
-            floors={building.floors}
-            activeFloorId={activeFloor.id}
-            onSelect={(floorId) => {
-              const idx = route.segments.findIndex((s) => s.floorId === floorId)
-              if (idx >= 0) setActiveSegmentIndex(idx)
-            }}
-            routeFloorIds={routeFloorIds}
-          />
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <FloorSwitcher
+              floors={building.floors}
+              activeFloorId={activeFloor.id}
+              onSelect={(floorId) => {
+                const idx = route.segments.findIndex((s) => s.floorId === floorId)
+                if (idx >= 0) setActiveSegmentIndex(idx)
+              }}
+              routeFloorIds={routeFloorIds}
+            />
+            <MapModeToggle mode={mapDisplayMode} onSelect={setMapDisplayMode} />
+          </div>
           <div className="flex-1 min-h-0">
             <FloorGridMap
               floor={activeFloor}

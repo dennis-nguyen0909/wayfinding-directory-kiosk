@@ -47,7 +47,7 @@ function distance(a: GridPosition, b: GridPosition) {
 }
 
 /** True if two grid cells share an edge (orthogonal adjacency), not just a corner. */
-function isOrthogonallyAdjacent(a: GridPosition, b: GridPosition): boolean {
+export function isOrthogonallyAdjacent(a: GridPosition, b: GridPosition): boolean {
   const aColSpan = a.colSpan ?? 1
   const aRowSpan = a.rowSpan ?? 1
   const bColSpan = b.colSpan ?? 1
