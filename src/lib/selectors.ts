@@ -27,6 +27,24 @@ export function getRoomById(building: Building, roomId: string): RoomWithFloor |
   return allRooms(building).find((r) => r.id === roomId)
 }
 
+/** Rooms to surface as "you may also like" — scored by shared category first,
+ * then shared keywords, excluding the room itself. Rooms sharing neither are
+ * left out entirely rather than padded in as low-relevance filler. */
+export function relatedRooms(building: Building, room: RoomWithFloor, limit = 4): RoomWithFloor[] {
+  const roomKeywords = new Set(room.keywords ?? [])
+  return allRooms(building)
+    .filter((r) => r.id !== room.id)
+    .map((r) => {
+      const sharedKeywords = (r.keywords ?? []).filter((k) => roomKeywords.has(k)).length
+      const score = (r.category === room.category ? 2 : 0) + sharedKeywords
+      return { room: r, score }
+    })
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((entry) => entry.room)
+}
+
 export interface RouteResult {
   found: true
   segments: ReturnType<typeof splitIntoFloorSegments>

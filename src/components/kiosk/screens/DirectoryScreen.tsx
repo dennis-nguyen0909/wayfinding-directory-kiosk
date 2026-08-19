@@ -60,6 +60,11 @@ export function DirectoryScreen() {
                 setActiveMapFloorId(selectedRoom.floorId)
                 startDirections()
               }}
+              onSelectRoom={(roomId) => {
+                selectRoom(roomId)
+                const targetFloorId = getRoomById(building, roomId)?.floorId
+                if (targetFloorId) setActiveMapFloorId(targetFloorId)
+              }}
             />
           </section>
 
