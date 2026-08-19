@@ -14,7 +14,7 @@ interface KioskFooterProps {
 
 export function KioskFooter({ showHome, onHome, onHelp, className, primaryAction }: KioskFooterProps) {
   return (
-    <footer className={cn('flex items-center justify-between px-12 py-6', className)}>
+    <footer className={cn('flex items-center justify-between px-12 py-6 border-t border-border', className)}>
       <div>
         {showHome && (
           <TapButton variant="ghost" size="default" onClick={onHome}>

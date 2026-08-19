@@ -11,12 +11,12 @@ export function IdleOverlay() {
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: tap-anywhere-to-extend, a convenience on top of the two keyboard-operable buttons below.
     // biome-ignore lint/a11y/useKeyWithClickEvents: same — Enter/Space reach the identical action via the "Yes, I'm here" button.
-    <div onClick={extendSession} className="fixed inset-0 z-50 bg-foreground/60 flex items-center justify-center">
+    <div onClick={extendSession} className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
       {/* biome-ignore lint/a11y/noStaticElementInteractions: stopPropagation-only, not a real control. */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: stopPropagation-only, not a real control. */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-background rounded-3xl p-12 max-w-2xl text-center flex flex-col items-center gap-6"
+        className="bg-card border border-border rounded-2xl p-12 max-w-2xl text-center flex flex-col items-center gap-6"
       >
         <svg viewBox="0 0 100 100" className="h-32 w-32 -rotate-90" role="img" aria-label="Time remaining">
           <title>Time remaining before the kiosk resets</title>

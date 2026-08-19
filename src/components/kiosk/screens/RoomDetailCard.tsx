@@ -10,7 +10,7 @@ interface RoomDetailCardProps {
 }
 
 export function RoomDetailCard({ room, onBack, onGetDirections }: RoomDetailCardProps) {
-  const { Icon, iconClass } = CATEGORY_STYLES[room.category]
+  const { Icon, badgeClass } = CATEGORY_STYLES[room.category]
 
   return (
     <div className="flex flex-col gap-6 h-full min-h-0">
@@ -24,8 +24,8 @@ export function RoomDetailCard({ room, onBack, onGetDirections }: RoomDetailCard
       </button>
 
       <div className="flex items-start gap-4">
-        <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center shrink-0">
-          <Icon className={`h-8 w-8 ${iconClass}`} />
+        <div className={`h-16 w-16 rounded-lg flex items-center justify-center shrink-0 ${badgeClass}`}>
+          <Icon className="h-8 w-8" />
         </div>
         <div>
           <h2 className="text-4xl font-bold text-foreground tracking-tight">{room.name}</h2>

@@ -6,37 +6,49 @@ interface CategoryStyle {
   /** Room block treatment — semantic tokens only, distinct per category. */
   blockClass: string
   iconClass: string
+  /** Icon-badge background (RoomList rows, RoomDetailCard header) — a tinted
+   * circle/square, never a full-tile fill. `category-*` opacity utilities
+   * resolve through the Tailwind color group in tailwind.config.js, which
+   * reads the plain-hex `--cat-*` tokens in index.css directly — never
+   * re-wrapped in hsl(). */
+  badgeClass: string
 }
 
 export const CATEGORY_STYLES: Record<RoomCategory, CategoryStyle> = {
   business: {
     Icon: Briefcase,
-    blockClass: 'bg-[hsl(var(--chart-1)/0.12)] border-[hsl(var(--chart-1))] text-foreground',
-    iconClass: 'text-[hsl(var(--chart-1))]',
+    blockClass: 'bg-category-business/10 border-category-business/50 text-foreground',
+    iconClass: 'text-category-business',
+    badgeClass: 'bg-category-business/15 text-category-business',
   },
   dining: {
     Icon: Coffee,
-    blockClass: 'bg-[hsl(var(--chart-2)/0.12)] border-[hsl(var(--chart-2))] text-foreground',
-    iconClass: 'text-[hsl(var(--chart-2))]',
+    blockClass: 'bg-category-dining/10 border-category-dining/50 text-foreground',
+    iconClass: 'text-category-dining',
+    badgeClass: 'bg-category-dining/15 text-category-dining',
   },
   meeting: {
     Icon: Users,
-    blockClass: 'bg-[hsl(var(--chart-3)/0.12)] border-[hsl(var(--chart-3))] text-foreground',
-    iconClass: 'text-[hsl(var(--chart-3))]',
+    blockClass: 'bg-category-meeting/10 border-category-meeting/50 text-foreground',
+    iconClass: 'text-category-meeting',
+    badgeClass: 'bg-category-meeting/15 text-category-meeting',
   },
   amenity: {
     Icon: Sparkles,
-    blockClass: 'bg-[hsl(var(--chart-4)/0.12)] border-[hsl(var(--chart-4))] text-foreground',
-    iconClass: 'text-[hsl(var(--chart-4))]',
+    blockClass: 'bg-category-amenity/10 border-category-amenity/50 text-foreground',
+    iconClass: 'text-category-amenity',
+    badgeClass: 'bg-category-amenity/15 text-category-amenity',
   },
   services: {
     Icon: Info,
-    blockClass: 'bg-[hsl(var(--chart-5)/0.12)] border-[hsl(var(--chart-5))] text-foreground',
-    iconClass: 'text-[hsl(var(--chart-5))]',
+    blockClass: 'bg-category-services/10 border-category-services/50 text-foreground',
+    iconClass: 'text-category-services',
+    badgeClass: 'bg-category-services/15 text-category-services',
   },
   restroom: {
     Icon: DoorClosed,
     blockClass: 'bg-muted border-border text-muted-foreground',
     iconClass: 'text-muted-foreground',
+    badgeClass: 'bg-muted text-muted-foreground',
   },
 }

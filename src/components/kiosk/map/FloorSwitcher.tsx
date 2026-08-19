@@ -21,7 +21,7 @@ export function FloorSwitcher({ floors, activeFloorId, onSelect, routeFloorIds }
               type="button"
               onClick={() => onSelect(floor.id)}
               className={cn(
-                'min-h-[64px] px-6 rounded-2xl text-xl font-semibold transition-all duration-150 active:scale-[0.97] border-2',
+                'min-h-[64px] px-6 rounded-md text-xl font-semibold transition-all duration-150 active:scale-[0.97] border',
                 isActive
                   ? 'bg-primary text-primary-foreground border-primary'
                   : isOnRoute

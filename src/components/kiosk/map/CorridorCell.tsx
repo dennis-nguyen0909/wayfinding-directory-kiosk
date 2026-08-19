@@ -31,12 +31,12 @@ export function CorridorCell({ gridPosition, label, icon, isHighlighted, isOrigi
     <div
       style={gridStyle(gridPosition)}
       className={cn(
-        'relative flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border bg-muted/50 min-h-[64px]',
+        'relative flex flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border/70 bg-muted/40 min-h-[64px]',
         isHighlighted && 'bg-primary/10 border-primary border-solid ring-2 ring-primary/50'
       )}
     >
       {isOrigin && (
-        <span className="absolute -top-2 -left-2 h-8 w-8 rounded-full bg-primary flex items-center justify-center animate-pulse">
+        <span className="absolute -top-2 -left-2 h-8 w-8 rounded-full bg-primary flex items-center justify-center motion-safe:animate-[pulse-ring_1.8s_ease-in-out_infinite]">
           <MapPin className="h-5 w-5 text-primary-foreground" />
         </span>
       )}

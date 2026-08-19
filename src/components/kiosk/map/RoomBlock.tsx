@@ -26,10 +26,11 @@ export function RoomBlock({ room, onTap, isHighlighted, isDestination }: RoomBlo
       onClick={onTap}
       style={gridStyle(room.gridPosition)}
       className={cn(
-        'relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-3 min-h-[88px]',
+        'relative flex flex-col items-center justify-center gap-2 rounded-lg border p-3 min-h-[88px]',
         'transition-all duration-150 active:scale-[0.97]',
         blockClass,
-        (isHighlighted || isDestination) && 'ring-4 ring-primary shadow-[0_0_24px_hsl(var(--primary)/0.4)]'
+        (isHighlighted || isDestination) &&
+          'ring-4 ring-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_40%,transparent)]'
       )}
     >
       <Icon className={cn('h-8 w-8 shrink-0', iconClass)} />

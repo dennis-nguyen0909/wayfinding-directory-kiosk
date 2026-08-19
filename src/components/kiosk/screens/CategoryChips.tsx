@@ -14,7 +14,7 @@ export function CategoryChips({ active, onSelect }: CategoryChipsProps) {
         type="button"
         onClick={() => onSelect(null)}
         className={cn(
-          'min-h-[64px] px-6 rounded-full text-xl font-semibold border-2 transition-all duration-150 active:scale-[0.97]',
+          'min-h-[64px] px-6 rounded-full font-mono text-xl uppercase tracking-wide font-semibold border transition-all duration-150 active:scale-[0.97]',
           active === null
             ? 'bg-primary text-primary-foreground border-primary'
             : 'bg-background border-border text-muted-foreground'

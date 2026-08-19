@@ -16,7 +16,7 @@ export function KioskDialog({ open, onOpenChange, title, children, className }: 
       <DialogContent
         showCloseButton={false}
         className={cn(
-          'bg-background max-w-2xl max-h-[85dvh] rounded-3xl border border-border flex flex-col p-0',
+          'bg-background max-w-2xl max-h-[85dvh] rounded-xl border border-border flex flex-col p-0',
           className
         )}
       >

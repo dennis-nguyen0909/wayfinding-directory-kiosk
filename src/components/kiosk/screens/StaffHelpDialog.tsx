@@ -16,7 +16,7 @@ export function StaffHelpDialog({ open, onOpenChange }: StaffHelpDialogProps) {
       <div className="flex flex-col gap-6">
         <p>Tap any tile to browse, or use the search box to find a person, business, or amenity by name.</p>
         {reception && (
-          <div className="flex items-center gap-4 p-6 rounded-2xl bg-muted">
+          <div className="flex items-center gap-4 p-6 rounded-lg bg-muted">
             <Phone className="h-8 w-8 text-primary shrink-0" />
             <div>
               <p className="font-semibold text-foreground">{reception.name}</p>

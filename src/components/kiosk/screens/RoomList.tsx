@@ -20,22 +20,24 @@ export function RoomList({ rooms, onSelect, className }: RoomListProps) {
   }
 
   return (
-    <ul className={cn('flex flex-col gap-3', className)}>
+    <ul className={cn('flex flex-col', className)}>
       {rooms.map((room) => {
-        const { Icon, iconClass } = CATEGORY_STYLES[room.category]
+        const { Icon, badgeClass } = CATEGORY_STYLES[room.category]
         return (
-          <li key={room.id}>
+          <li key={room.id} className="border-b border-border last:border-b-0">
             <button
               type="button"
               onClick={() => onSelect(room.id)}
-              className="w-full flex items-center gap-4 min-h-[88px] px-6 rounded-2xl border-2 border-border bg-background hover:bg-accent transition-all duration-150 active:scale-[0.98] text-left"
+              className="w-full flex items-center gap-4 min-h-[88px] py-3 hover:bg-accent transition-all duration-150 active:scale-[0.98] text-left"
             >
-              <Icon className={cn('h-8 w-8 shrink-0', iconClass)} />
+              <span className={cn('h-11 w-11 rounded-lg flex items-center justify-center shrink-0', badgeClass)}>
+                <Icon className="h-6 w-6" />
+              </span>
               <span className="flex-1">
                 <span className="block text-2xl font-semibold text-foreground">{room.name}</span>
-                <span className="block text-xl text-muted-foreground">{room.floorLabel}</span>
+                <span className="block text-lg text-muted-foreground">{room.floorLabel}</span>
               </span>
-              <ChevronRight className="h-8 w-8 text-muted-foreground shrink-0" />
+              <ChevronRight className="h-7 w-7 text-muted-foreground shrink-0" />
             </button>
           </li>
         )
