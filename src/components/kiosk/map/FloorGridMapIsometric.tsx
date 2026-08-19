@@ -126,16 +126,18 @@ function IsoRoom({
       onClick={onTap}
       style={{ ...gridCellStyle(room.gridPosition), transform: 'translateZ(6px)' }}
       className={cn(
-        'relative flex flex-col items-center justify-center gap-2 rounded-lg border p-3 w-full h-full min-h-[64px] min-w-[64px]',
-        // Riser shadow reads as this block's raised height (see the translateZ set via
-        // inline style below). A uniform active:scale press looks wrong on a tilted
-        // 3D block — the shadow shrinking on press ("the block sinks flush with the
-        // corridor plane") is the affordance that actually matches this metaphor. Kept
-        // as a box-shadow transition (not transform) because the inline `style.transform`
+        'relative flex flex-col items-center justify-center gap-2 rounded-lg border p-3 w-full h-full min-h-[64px] min-w-[64px] cursor-pointer',
+        // Three-state riser shadow reads as this block's height off the corridor
+        // floor (see the translateZ set via inline style below) — rest, a taller
+        // "lifted" shadow + brighter fill on hover (the block's only pre-touch
+        // affordance; without it these read as static diorama pieces, not
+        // buttons), and a flush/pressed shadow on tap. Kept entirely on
+        // box-shadow/filter (never transform) because the inline `style.transform`
         // above always wins over any Tailwind transform utility at the same element.
         'shadow-[0_6px_0_rgba(0,0,0,0.35),0_8px_10px_rgba(0,0,0,0.25)]',
-        'active:shadow-[0_1px_0_rgba(0,0,0,0.35),0_2px_4px_rgba(0,0,0,0.25)]',
-        'transition-shadow duration-150',
+        'hover:shadow-[0_10px_0_rgba(0,0,0,0.4),0_16px_20px_rgba(0,0,0,0.3)] hover:brightness-125 hover:border-primary/70',
+        'active:shadow-[0_1px_0_rgba(0,0,0,0.35),0_2px_4px_rgba(0,0,0,0.25)] active:brightness-100',
+        'transition-[box-shadow,filter,border-color] duration-150',
         blockClass,
         (isHighlighted || isDestination) &&
           'ring-4 ring-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_40%,transparent),0_6px_0_rgba(0,0,0,0.35)]'
