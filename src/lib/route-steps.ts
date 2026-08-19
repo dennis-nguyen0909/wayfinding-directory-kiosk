@@ -8,6 +8,8 @@ import {
 
 export interface DirectionStep {
   text: string
+  /** Optional — lets the UI pick an icon without re-parsing `text`. */
+  kind?: 'start' | 'turn-left' | 'turn-right' | 'straight' | 'elevator' | 'stairs' | 'ramp' | 'arrive'
 }
 
 const HEADING_ORDER: Heading[] = ['n', 'e', 's', 'w']
@@ -54,8 +56,12 @@ export function segmentToSteps(graph: WayGraph, segment: FloorSegment, isFirstSe
       if (way?.label) passedLabels.push(way.label)
     }
     const passedText = passedLabels.length > 0 ? ` past ${passedLabels.join(', ')}` : ''
-    const verb = legStartIndex === 0 && isFirstSegment ? 'Head' : 'Continue'
-    steps.push({ text: `${verb} ${headingWord(heading)}${passedText}` })
+    const isVeryFirstLeg = legStartIndex === 0 && isFirstSegment
+    const verb = isVeryFirstLeg ? 'Head' : 'Continue'
+    steps.push({
+      text: `${verb} ${headingWord(heading)}${passedText}`,
+      kind: isVeryFirstLeg ? 'start' : 'straight',
+    })
   }
 
   for (let i = 1; i < nodeIds.length; i++) {
@@ -65,7 +71,9 @@ export function segmentToSteps(graph: WayGraph, segment: FloorSegment, isFirstSe
       legStartIndex = i - 1
     } else if (nextHeading !== heading) {
       flushLeg(i - 1)
-      steps.push({ text: `${turnPhrase(heading, nextHeading)} toward ${labelFor(graph, nodeIds[i])}` })
+      const phrase = turnPhrase(heading, nextHeading)
+      const kind: DirectionStep['kind'] = phrase === 'Turn right' ? 'turn-right' : phrase === 'Turn left' ? 'turn-left' : 'straight'
+      steps.push({ text: `${phrase} toward ${labelFor(graph, nodeIds[i])}`, kind })
       heading = nextHeading
       legStartIndex = i - 1
     }
@@ -105,10 +113,10 @@ export function buildDirections(
           : segment.exitTransition.kind === 'stairs'
             ? 'Take the stairs'
             : 'Take the ramp'
-      steps.push({ text: `${verb} to ${segment.exitTransition.toFloorLabel}` })
+      steps.push({ text: `${verb} to ${segment.exitTransition.toFloorLabel}`, kind: segment.exitTransition.kind })
     }
   })
 
-  steps.push({ text: `Arrive at ${destinationRoomName}` })
+  steps.push({ text: `Arrive at ${destinationRoomName}`, kind: 'arrive' })
   return steps
 }
