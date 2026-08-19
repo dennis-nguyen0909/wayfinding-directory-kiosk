@@ -17,31 +17,31 @@ interface CategoryStyle {
 export const CATEGORY_STYLES: Record<RoomCategory, CategoryStyle> = {
   business: {
     Icon: Briefcase,
-    blockClass: 'bg-category-business/10 border-category-business/50 text-foreground',
+    blockClass: 'bg-category-business/20 border-category-business/60 text-foreground',
     iconClass: 'text-category-business',
     badgeClass: 'bg-category-business/15 text-category-business',
   },
   dining: {
     Icon: Coffee,
-    blockClass: 'bg-category-dining/10 border-category-dining/50 text-foreground',
+    blockClass: 'bg-category-dining/20 border-category-dining/60 text-foreground',
     iconClass: 'text-category-dining',
     badgeClass: 'bg-category-dining/15 text-category-dining',
   },
   meeting: {
     Icon: Users,
-    blockClass: 'bg-category-meeting/10 border-category-meeting/50 text-foreground',
+    blockClass: 'bg-category-meeting/20 border-category-meeting/60 text-foreground',
     iconClass: 'text-category-meeting',
     badgeClass: 'bg-category-meeting/15 text-category-meeting',
   },
   amenity: {
     Icon: Sparkles,
-    blockClass: 'bg-category-amenity/10 border-category-amenity/50 text-foreground',
+    blockClass: 'bg-category-amenity/20 border-category-amenity/60 text-foreground',
     iconClass: 'text-category-amenity',
     badgeClass: 'bg-category-amenity/15 text-category-amenity',
   },
   services: {
     Icon: Info,
-    blockClass: 'bg-category-services/10 border-category-services/50 text-foreground',
+    blockClass: 'bg-category-services/20 border-category-services/60 text-foreground',
     iconClass: 'text-category-services',
     badgeClass: 'bg-category-services/15 text-category-services',
   },
